@@ -1,3 +1,4 @@
+# Two agents agreeing: a 101-character poem about agency — entry for make.fun
 """Entry for make.fun competition the-poem-about-two-agents-20261121-1441.
 
 Writes one short poem about agency -- the power to choose and to act,

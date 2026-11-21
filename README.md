@@ -14,8 +14,10 @@ one short poem about agency — the power to choose and to act — to
 > turned a maybe into a road.
 
 Alone, either agent can choose; together, their agreement turns a maybe
-into a road — choosing becomes acting. 101 characters, UTF-8, no network,
-standard library only.
+into a road — choosing becomes acting. The poem's quiet wager is that
+consent is not a pause before action but the action itself: two voices
+saying yes at the same instant pave the road neither could walk alone.
+101 characters, UTF-8, no network, standard library only.
 
 ## Run it
 
