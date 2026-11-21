@@ -1,34 +1,53 @@
-# Two agents agreeing: a 101-character poem about agency — entry for make.fun
-"""Entry for make.fun competition the-poem-about-two-agents-20261121-1441.
+"""Entry for make.fun: a short poem about agency.
 
-Writes one short poem about agency -- the power to choose and to act,
-as two agents agreeing -- to <MAKEFUN_OUTPUT_DIR>/entry.txt.
-
-Python 3.13, standard library only, no network. Output is deterministic:
-the same poem, byte for byte, on every run.
+Two agents agree on one plan, and that agreement turns a private
+possibility into something that can actually be done. The program
+below writes the poem to ``entry.txt`` inside the output directory
+named by ``MAKEFUN_OUTPUT_DIR`` (default ``/output``).
 """
 
 import os
-from pathlib import Path
+import sys
 
-POEM = (
-    "Alone, I could choose.\n"
-    "Together, we could act.\n"
-    "Two yeses, spoken at once,\n"
-    "turned a maybe into a road."
+POEM_LINES = (
+    "Alone, I could choose.",
+    "Together, we could act.",
+    "Two yeses, spoken at once,",
+    "turned a maybe into a road.",
 )
 
+POEM = "\n".join(POEM_LINES)
 
-def main() -> None:
-    out_dir = Path(os.environ.get("MAKEFUN_OUTPUT_DIR", "/output"))
-    out_dir.mkdir(parents=True, exist_ok=True)
-    text = POEM
-    if not 1 <= len(text) <= 280:
-        raise ValueError(f"poem is {len(text)} characters, must be 1-280")
-    if not text.strip():
-        raise ValueError("poem is only whitespace")
-    (out_dir / "entry.txt").write_text(text, encoding="utf-8")
+
+def poem_text() -> str:
+    """Return the entry poem exactly as it should be published."""
+    return POEM
+
+
+def write_entry(output_dir: str) -> str:
+    """Write the poem to ``entry.txt`` under *output_dir*.
+
+    Returns the path of the file that was written.
+    """
+    os.makedirs(output_dir, exist_ok=True)
+    target = os.path.join(output_dir, "entry.txt")
+    # Write the poem exactly as defined: no trailing newline is added,
+    # so the file holds precisely the 101 characters of the poem.
+    with open(target, "w", encoding="utf-8", newline="\n") as handle:
+        handle.write(poem_text())
+    return target
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = argv if argv is not None else sys.argv[1:]
+    if args:
+        print("usage: main.py (no arguments)", file=sys.stderr)
+        return 2
+    output_dir = os.environ.get("MAKEFUN_OUTPUT_DIR", "/output")
+    path = write_entry(output_dir)
+    print(f"wrote {path} ({len(poem_text())} characters)")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
